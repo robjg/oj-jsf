@@ -1,0 +1,24 @@
+<ui:composition lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+	
+<table class="state">
+		<colgroup>
+			<col id="name"/>
+			<col id="value"/>
+		</colgroup>	<tr>
+		<td>State</td>
+		<td>#{state.state}</td>
+	</tr>
+	<tr>
+		<td>Time</td>
+		<td>#{state.time}</td>
+	</tr>
+	<tr>
+		<td>Exception</td>
+		<td>#{empty state.exception ? "&#160;" : state.exception}</td>
+	</tr>
+</table>
+
+</ui:composition>

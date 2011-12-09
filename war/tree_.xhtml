@@ -1,0 +1,18 @@
+<ui:composition lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:f="http://java.sun.com/jsf/core">
+		
+	<f:event listener="#{tree.refresh}" type="preRenderView" />
+	
+	<div class="tree">	
+		<h:form>
+			<ul>
+				<ui:include src="treenode.xhtml">
+					<ui:param name="node" value="#{tree.root}"/>
+				</ui:include>
+			</ul>
+		</h:form>
+	</div>
+</ui:composition>

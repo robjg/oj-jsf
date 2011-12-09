@@ -1,0 +1,32 @@
+<ui:composition lang="en" 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<div class="tabbed-pane">
+
+	<div class="tabs">
+		<ul>
+			<ui:repeat value="#{detail.tabs}" var="tab">
+				<li>
+					<h:link value="#{tab.displayName}" 
+						styleClass="#{tab.styleClass}" outcome="index.xhtml"
+						target="_top">
+						<f:param name="tab" value="#{tab.page}"/>
+						<f:param name="node" value="#{tree.selectedRefId}"/>
+					</h:link>
+				</li>
+			</ui:repeat>
+		</ul>
+	</div>
+	
+	<div class="tab-content">
+	  <ui:include src="#{detail.tab}.xhtml"/>
+	</div>
+
+</div>
+
+
+</ui:composition>

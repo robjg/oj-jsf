@@ -1,0 +1,24 @@
+<oddjob id="this">
+    <job>
+        <sequential>
+            <jobs>
+                <echo>
+Welcome to Oddjob running as a Servlet.
+
+To see more jobs from here try starting the server with:
+
+    java -jar run-oddjob -f examples/server/server.xml
+
+and then run the client job in the folder below.
+                </echo>
+                <folder>
+                    <jobs>
+                        <jmx:client xmlns:jmx="http://rgordon.co.uk/oddjob/jmx"
+                            id="client" name="Oddjob Client"
+                            url="service:jmx:rmi:///jndi/rmi://localhost/my-oddjob"/>
+                    </jobs>
+                </folder>
+            </jobs>
+        </sequential>
+    </job>
+</oddjob>

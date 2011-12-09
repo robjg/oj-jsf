@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="projects.oj-jsf">
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/java"/>
+        <wb-resource deploy-path="/" source-path="/war"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/test/java"/>
+        <dependent-module archiveName="projects.oddjob.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/projects.oddjob/projects.oddjob">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="projects.arooa.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/projects.arooa/projects.arooa">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="javax.inject.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/projects.arooa/lib/javax.inject.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="commons-beanutils-1.8.3.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/projects.arooa/lib/commons-beanutils-1.8.3.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="log4j-1.2.16.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/projects.arooa/lib/log4j-1.2.16.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="commons-logging.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/projects.arooa/lib/commons-logging.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <property name="context-root" value="projects.oj-jsf"/>
+        <property name="java-output-path" value="/projects.oj-jsf/classes"/>
+    </wb-module>
+</project-modules>

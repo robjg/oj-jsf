@@ -1,0 +1,28 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN"
+"http://www.w3.org/TR/html4/frameset.dtd"> 
+<html xmlns:f="http://java.sun.com/jsf/core">
+
+	<head>
+		<title>Oddjob</title>
+		
+	</head>
+	
+	<f:event listener="#{refresh.setRefreshInHeader}" type="preRenderView" />
+	
+	<f:metadata>
+	  <f:viewParam name="node" value="#{tree.selectedRefId}"/>
+	  <f:viewParam name="tab" value="#{detail.tab}"/>
+	</f:metadata>
+	
+	<frameset rows="106, *">
+		<frame src="header.xhtml" noresize="noresize"/>
+		<frameset cols="30%,70%">
+			<frame src="tree.xhtml?node=#{tree.selectedRefId}"/>
+			<frame src="detail.xhtml?tab=#{detail.tab}" name="detail"/>
+		</frameset>
+		<noframes>
+			<p>Sorry this page uses frames. Future version won't though.</p>
+		</noframes>
+	</frameset>
+	
+</html>

@@ -1,0 +1,42 @@
+.tree {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;	
+	overflow: auto;
+	white-space: nowrap;
+	padding: 2px;
+}
+
+.tree ul {
+	list-style-type: none;
+	margin: 0 0 0 0;
+	padding: 0 0 0 20px;
+}
+
+.tree li {
+	margin: 0 0 0 0;
+	padding: 0 0 0 0;
+}
+
+.tree li form {
+	display: inline;
+}
+.tree li input {
+	margin: 0 0 0 -20px;
+	padding: 0 0 0 0;
+}
+
+.tree li a {
+	color: black;
+	text-decoration: none;
+}
+
+.tree li a:hover {
+	background-color: #FF4000;
+}
+
+.tree a.selected {
+	background-color: #A5DF00;
+}

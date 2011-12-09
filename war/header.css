@@ -1,0 +1,46 @@
+
+.header {	font-family: 'Courier New', Courier, monospace;
+	color: white;
+	background-color: black;
+	border-radius: 20px;
+	-moz-border-radius: 20px;
+	margin: 4px 4px 0 4px;
+	height: 96px;
+}
+
+a {
+	color: #FF4000;
+	text-decoration: none;
+}
+
+a:hover {
+	color: #6E6E6E;
+	text-decoration: none;
+}
+
+body {
+	margin: 0;
+}
+
+#title {
+	font-size: 64px;
+	font-weight: bold;
+	margin: 8px 0 0 16px;
+}
+
+#strapline {
+	font-size: 16px;
+	font-weight: bold;
+	margin: 0 0 -32px 32px;
+	color: white;
+}
+
+
+#homelink {
+	font-family: Verdana, Helvetica, Arial, sans-serif;
+	font-size: 16px; 
+	color: white;
+	float: right;
+	margin: 0 16px 0 0;
+}
+

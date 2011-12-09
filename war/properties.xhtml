@@ -1,0 +1,18 @@
+<ui:composition lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+<table class="properties">
+		<colgroup>
+			<col id="name"/>
+			<col id="value"/>
+		</colgroup>
+	<c:forEach items="#{properties.entries}" var="element">
+	<tr>
+		<td>#{element.key}</td>
+		<td>#{empty element.value ? "&#160;" : element.value}</td>
+	</tr>
+	</c:forEach>
+</table>
+	
+</ui:composition>

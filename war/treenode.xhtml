@@ -1,0 +1,51 @@
+<ui:composition lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+  <li>
+ 		<c:choose>
+			<c:when test="#{node.showChildren}">
+    			<h:commandButton image="gfx/minus.png" alt="collapse"
+   					action="#{node.collapse}"/>
+				
+    			<h:graphicImage value="/icon?iconId=#{node.iconId}" 
+    					alt="#{node.iconId} icon"/>
+    			
+			    <h:link styleClass="#{node.styleClass}" value="#{node.nodeName}" 
+			    		outcome="index.xhtml" target="_top">
+			    	<f:param name="node" value="#{node.refId}"/>
+			    	<c:if test="#{!empty detail.tab}">
+				    	<f:param name="tab" value="#{detail.tab}"/>
+			    	</c:if>
+			   	</h:link>
+				    
+		    	<ul>
+					<c:forEach items="#{node.children}" var="node">
+			      		<ui:include src="treenode.xhtml"/>
+					</c:forEach>
+		      	</ul> 
+			</c:when>
+			<c:otherwise>
+	    		<c:if test="#{node.hasChildren}">
+		    			<h:commandButton image="gfx/plus.png" alt="expand"
+	    					action="#{node.expand}"/>
+	    		</c:if>
+	    		<h:graphicImage value="/icon?iconId=#{node.iconId}" 
+    					alt="#{node.iconId} icon"/>
+	    
+			    <h:link styleClass="#{node.styleClass}" value="#{node.nodeName}" 
+			    		target="_top" outcome="index.xhtml">
+			    	<f:param name="node" value="#{node.refId}"/>
+			    	<c:if test="#{!empty detail.tab}">
+						 <f:param name="tab" value="#{detail.tab}"/>
+			    	</c:if>
+			   	</h:link>
+			   	
+	    	</c:otherwise>
+		</c:choose>
+  </li>
+ 
+ </ui:composition>
+  
