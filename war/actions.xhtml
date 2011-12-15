@@ -2,21 +2,24 @@
 	xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:c="http://java.sun.com/jsp/jstl/core">
-	<h:form target="_top">
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:f="http://java.sun.com/jsf/core">
+			<f:ajax render="treeform detailtab actions">
+	<h:form id="actions">
 		<fieldset>
 			<legend>Job Actions</legend>
-			<c:forEach items="#{commands.commands}" var="command">
-				<c:choose>
-					<c:when test="#{command.enabled}">
-						<h:commandButton value="#{command.name}" type="submit"
-							action="#{command.action}" />
-					</c:when>
-					<c:otherwise>
-						<h:commandButton value="#{command.name}" disabled="true" />
-					</c:otherwise>
-				</c:choose>
-			</c:forEach>
+				<c:forEach items="#{commands.commands}" var="command">
+					<c:choose>
+						<c:when test="#{command.enabled}">
+								<h:commandButton value="#{command.name}"
+									type="submit" action="#{command.action}" />
+						</c:when>
+						<c:otherwise>
+							<h:commandButton value="#{command.name}" disabled="true" />
+						</c:otherwise>
+					</c:choose>
+				</c:forEach>
 		</fieldset>
 	</h:form>
+			</f:ajax>
 </ui:composition>

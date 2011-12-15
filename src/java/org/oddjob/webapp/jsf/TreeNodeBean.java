@@ -169,4 +169,5 @@ public class TreeNodeBean {
 	public void setStyleClass(String styleClass) {
 		this.styleClass = styleClass;
 	}
+
 }

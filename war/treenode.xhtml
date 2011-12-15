@@ -7,20 +7,19 @@
   <li>
  		<c:choose>
 			<c:when test="#{node.showChildren}">
-    			<h:commandButton image="gfx/minus.png" alt="collapse"
-   					action="#{node.collapse}"/>
-				
+			    <f:ajax render="treeform">
+	    			<h:commandButton image="gfx/minus.png" alt="collapse"
+	   					action="#{node.collapse}"/>
+				</f:ajax>
     			<h:graphicImage value="/icon?iconId=#{node.iconId}" 
     					alt="#{node.iconId} icon"/>
     			
-			    <h:link styleClass="#{node.styleClass}" value="#{node.nodeName}" 
-			    		outcome="index.xhtml" target="_top">
-			    	<f:param name="node" value="#{node.refId}"/>
-			    	<c:if test="#{!empty detail.tab}">
-				    	<f:param name="tab" value="#{detail.tab}"/>
-			    	</c:if>
-			   	</h:link>
-				    
+			    <f:ajax render="treeform detailtab actions">
+				    <h:commandLink styleClass="#{node.styleClass}" value="#{node.nodeName}">
+						<f:setPropertyActionListener target="#{tree.selectedRefId}" value="#{node.refId}" />			    	
+				   	</h:commandLink>
+				</f:ajax>
+								    
 		    	<ul>
 					<c:forEach items="#{node.children}" var="node">
 			      		<ui:include src="treenode.xhtml"/>
@@ -29,19 +28,19 @@
 			</c:when>
 			<c:otherwise>
 	    		<c:if test="#{node.hasChildren}">
+				    <f:ajax render="treeform">
 		    			<h:commandButton image="gfx/plus.png" alt="expand"
 	    					action="#{node.expand}"/>
+					</f:ajax>
 	    		</c:if>
 	    		<h:graphicImage value="/icon?iconId=#{node.iconId}" 
     					alt="#{node.iconId} icon"/>
 	    
-			    <h:link styleClass="#{node.styleClass}" value="#{node.nodeName}" 
-			    		target="_top" outcome="index.xhtml">
-			    	<f:param name="node" value="#{node.refId}"/>
-			    	<c:if test="#{!empty detail.tab}">
-						 <f:param name="tab" value="#{detail.tab}"/>
-			    	</c:if>
-			   	</h:link>
+			    <f:ajax render="treeform detailtab actions">
+				    <h:commandLink styleClass="#{node.styleClass}" value="#{node.nodeName}">
+						<f:setPropertyActionListener target="#{tree.selectedRefId}" value="#{node.refId}" />			    	
+				   	</h:commandLink>
+				</f:ajax>
 			   	
 	    	</c:otherwise>
 		</c:choose>

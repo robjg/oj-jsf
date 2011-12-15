@@ -55,9 +55,11 @@ public class JobActionsBean extends DetailBase {
 	 */
 	public Collection<Command> getCommands() {
 		
+		String refId = getRefId();
+		
 		JobInfoLookup lookup = getJobInfoLookup();
 		
-		WebJobActions actions = lookup.actionsFor(getRefId());
+		WebJobActions actions = lookup.actionsFor(refId);
 		
 		List<Command> actionList = new ArrayList<Command>();
 		
@@ -98,7 +100,7 @@ public class JobActionsBean extends DetailBase {
 		
 		public String action() {
 			execute(name);
-			return "index.xhtml?faces-redirect=true";
+			return null;
 		}
 	}
 }

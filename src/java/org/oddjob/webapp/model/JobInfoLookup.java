@@ -219,12 +219,14 @@ public class JobInfoLookup {
 	 * @return
 	 */
 	public WebJobActions actionsFor(String refId) {
-		TreeNode treeNode = (TreeNode) jobs.get(refId);
-		if (treeNode == null) {
-			throw new IllegalStateException("[" + refId + "] does not exist!");
-		}
 		WebJobActions actions = new WebJobActions();
-		actions.select(treeNode.getComponent(), treeNode.getExplorerContext());
+		if (refId != null) {
+			TreeNode treeNode = (TreeNode) jobs.get(refId);
+			if (treeNode != null) {
+				actions.select(treeNode.getComponent(), 
+						treeNode.getExplorerContext());
+			}
+		}
 		return actions;
 	}
 	

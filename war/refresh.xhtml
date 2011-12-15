@@ -1,17 +1,41 @@
 <ui:composition lang="en" xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:c="http://java.sun.com/jsp/jstl/core">
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:f="http://java.sun.com/jsf/core">
 
-	<h:form id="refresh" target="_top">
-		<fieldset id="refresh-set">
-			<legend>Refresh</legend>
-			<label for="refresh:rate">Rate (seconds)</label> 
-			<h:inputText value="#{refresh.refresh}" id="rate"/>
-		</fieldset>
-		
-		<h:commandButton value="Refresh" styleClass="refresh-submit"
-			action="#{refresh.submit}"/>
-		
-	</h:form>
+	<f:ajax render="treeform detailtab actions">
+		<h:form id="refresh">
+			<fieldset id="refresh-set">
+				<legend>Refresh</legend>
+				<label for="refresh:rate">Rate (seconds)</label> 
+				<input type="text" id="rate" onchange="oddjob.refresh(this.value)"/>
+			</fieldset>
+			
+			<h:commandButton value="Refresh" id="refresh-button" styleClass="refresh-submit"/>
+			
+		</h:form>
+	</f:ajax>
+	
+	<script type="text/javascript">
+oddjob = function() {
+	var timer;
+	
+	return {
+		refresh: function(value) {
+			if (timer) {
+				clearInterval(timer);
+				timer = null;
+			}
+			var interval = parseInt(value);
+			if (interval > 0) {
+				timer = setInterval(function() {
+					document.getElementById("refresh:refresh-button").click();
+				}, interval * 1000);
+			}
+		}
+	};
+}();
+	</script>
+	
 </ui:composition>	

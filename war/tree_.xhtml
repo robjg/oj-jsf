@@ -7,7 +7,7 @@
 	<f:event listener="#{tree.refresh}" type="preRenderView" />
 	
 	<div class="tree">	
-		<h:form>
+		<h:form id="treeform">
 			<ul>
 				<ui:include src="treenode.xhtml">
 					<ui:param name="node" value="#{tree.root}"/>
