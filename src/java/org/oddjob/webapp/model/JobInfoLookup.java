@@ -266,6 +266,15 @@ public class JobInfoLookup {
 	void removeChild(String refId) {
 		jobs.remove(refId);
 	}
+
+	/**
+	 * The number of jobs cached.
+	 * 
+	 * @return
+	 */
+	public int getJobCount() {
+		return jobs.size();
+	}
 	
 	/**
 	 * Free up resources. 

@@ -16,14 +16,14 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.oddjob.Oddjob;
+import org.oddjob.OddjobExecutors;
+import org.oddjob.arooa.xml.XMLConfiguration;
 import org.oddjob.webapp.WebappConstants;
 
-
 /**
- * This is the Oddjob servlet that starts Oddjob running on
- * a separate thread within a Servlet Container. This is 
- * slightly frowned upon in J2EE circles but most containers
- * allow it.
+ * This is the Oddjob Servlet. It relies on an OddjobExecutors being
+ * available in the Servlet Context. {@link ExecutionServlet} provide
+ * these.
  * 
  * @author Rob Gordon.
  */
@@ -34,47 +34,52 @@ public class OddjobServlet extends HttpServlet {
 	/** The oddjob instance */
 	private Oddjob oddjob; 
 	
-	/** The thread that is running it. */
-	private Thread thread;
-
 	/*
 	 *  (non-Javadoc)
 	 * @see javax.servlet.Servlet#init(javax.servlet.ServletConfig)
 	 */
 	public void init(ServletConfig config) throws ServletException {
-		oddjob = new Oddjob();
 		
 		ServletContext context = config.getServletContext();
-								
-		String servletContextPath = context.getRealPath("/");		
-		String oddjobFile = config.getServletContext().getInitParameter(
-				WebappConstants.FILE_PARAM);
-		if (oddjobFile == null) {
-			oddjobFile = config.getInitParameter(
-					WebappConstants.FILE_PARAM);
-		}
-		if (oddjobFile == null) {
-			oddjobFile = servletContextPath + "/WEB-INF/" + "oddjob.xml";
-		} else {
-			oddjobFile = servletContextPath + "/" + oddjobFile;
-		}
-		oddjob.setFile(new File(oddjobFile));
 		
-		String name = context.getInitParameter(
-				WebappConstants.NAME_PARAM);
-		if (name == null) {
-			name = config.getInitParameter(
-					WebappConstants.NAME_PARAM);
+		OddjobExecutors executors = (OddjobExecutors) context.getAttribute(
+				WebappConstants.EXECUTORS);
+		if (executors == null) {
+			throw new ServletException("No Executors - ensure Execution Servlet stats first!");
 		}
-		if (name == null) {
-			name = "Oddjob";
+		
+		oddjob = new Oddjob();
+		oddjob.setOddjobExecutors(executors);
+		
+		InitParam params = new InitParam(config);
+		
+		String oddjobPath = params.getInitParam(
+				WebappConstants.FILE_PATH_PARAM);
+		String oddjobFile = params.getRequiredInitParam(
+				WebappConstants.FILE_NAME_PARAM);
+		
+		if (oddjobPath == null) {
+			oddjob.setConfiguration(
+					new XMLConfiguration(oddjobFile, 
+							context.getResourceAsStream(oddjobFile)));
+		
+		} else {
+			oddjob.setFile(new File(oddjobPath, oddjobFile));
 		}
+		
+		String name = params.getInitParam(
+				WebappConstants.NAME_PARAM, "Oddjob");
 		oddjob.setName(name);
+		
+		oddjob.load();
 
 		context.setAttribute(WebappConstants.ODDJOB_INSTANCE, oddjob);
 		
-		thread = new Thread(oddjob);		
-		thread.start();
+		String loadOnly = params.getInitParam(
+				WebappConstants.LOAD_ONLY_PARAM, "false");
+		if (!Boolean.valueOf(loadOnly)) {
+			executors.getPoolExecutor().execute(oddjob);
+		}
 	}
 
 	/*
@@ -86,7 +91,9 @@ public class OddjobServlet extends HttpServlet {
 			
 		res.setContentType("text/plain");	
 		PrintWriter out = res.getWriter();
-		out.println("Oddjob");
+		out.println("Oddjob Servlet"); 
+		out.println("Root Oddjob is [" + oddjob.toString() + "]");
+		out.println("State is [" + oddjob.lastStateEvent().getState() + "]");
 	}
 
 	/*

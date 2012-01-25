@@ -30,9 +30,8 @@ public class IconRegistry {
 	 * the lookup.
 	 */
 	public void register(String iconId, Iconic iconic) {
-		IconTip iconTip = null;
 		synchronized (icons) {
-			iconTip = icons.get(iconId);
+			IconTip iconTip = icons.get(iconId);
 			if (iconTip == null) {
 				iconTip = iconic.iconForId(iconId);
 				icons.put(iconId, iconTip);

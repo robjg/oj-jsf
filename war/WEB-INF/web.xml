@@ -5,34 +5,114 @@
     <display-name>Oddjob</display-name>
     <description> The Oddjob Web Application. </description>
     
+    <!--  The Execution Servlet  provides a ThreadManager. This is used
+          to run Oddjob and it's Job Actions (i.e. When you run
+          something from the browser). -->
+    <servlet>
+        <servlet-name>Execution</servlet-name>
+        <servlet-class>org.oddjob.webapp.servlets.ExecutionServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    
+    <!--  This mapping is optional and can be removed. Something like
+          http://localhost:8080/oddjob/execution displays 
+          very basic information on the current threads executing. -->
+    <servlet-mapping>
+        <servlet-name>Execution</servlet-name>
+        <url-pattern>/execution</url-pattern>
+    </servlet-mapping>
+    
+    <!--  This launches an instance of Oddjob. The oddjob-config-file is
+          required. Without the oddjob-config-path the file is expected to be a 
+          local resource of the webapp.  -->
     <servlet>
         <servlet-name>Oddjob</servlet-name>
         <servlet-class>org.oddjob.webapp.servlets.OddjobServlet</servlet-class>
+
         <init-param>
-            <param-name>file</param-name>
+            <param-name>oddjob-config-file</param-name>
             <param-value>/WEB-INF/oddjob.xml</param-value>
         </init-param>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
+        
+        <!-- These set of parameters demonstrate how to load the examples
+             from the local file system into the Oddjob within the 
+             Oddjob servelet. 
+              
+        <init-param>
+            <param-name>oddjob-config-path</param-name>
+            <param-value>c:/Users/rob/java/oddjob/examples/</param-value>
+        </init-param>
+        <init-param>
+            <param-name>oddjob-config-file</param-name>
+            <param-value>oddjob.xml</param-value>
+        </init-param>
+        <init-param>
+            <param-name>oddjob-load-only</param-name>
+            <param-value>true</param-value>
+        </init-param>
+         -->
+         
+        <load-on-startup>2</load-on-startup>
+    </servlet>    
+    
+    <!--  This mapping is optional and can be removed. It allows some 
+          very basic information on the internal Oddjob instance to 
+          be viewed with http://localhost:8080/oddjob/oddjob -->
+    <servlet-mapping>
+        <servlet-name>Oddjob</servlet-name>
+        <url-pattern>/oddjob</url-pattern>
+    </servlet-mapping>
+    
+    <!--  As Job properties are retrieved the icon is cached so that
+        it can be retrieved as an image from the browser -->
     <servlet>
         <servlet-name>Icon Registry</servlet-name>
         <servlet-class>org.oddjob.webapp.servlets.IconServlet</servlet-class>
-        <load-on-startup>2</load-on-startup>
+        <load-on-startup>3</load-on-startup>
     </servlet>
+    
+    <!--  This mapping is required to return the icons. Try
+          http://localhost:8080/oddjob/icon?iconId=ready to see it working -->
     <servlet-mapping>
         <servlet-name>Icon Registry</servlet-name>
         <url-pattern>/icon</url-pattern>
     </servlet-mapping>
+    
+    <!--  Used to provide the properties for a Job that populate the 
+          browser view -->
     <servlet>
-        <servlet-name>Oddjob View</servlet-name>
+        <servlet-name>Job Lookup</servlet-name>
         <servlet-class>org.oddjob.webapp.servlets.LookupServlet</servlet-class>
-<!--        <init-param>
-            <param-name>root</param-name>
+        
+        <!-- This parameter can be used to specify a different job
+             from the Oddjob configuration as being the root node in the 
+             browser view.
+        <init-param>
+            <param-name>oddjob-root-job-id</param-name>
             <param-value>main</param-value>  
-        </init-param> -->
-        <load-on-startup>3</load-on-startup>
+        </init-param> 
+        -->
+        
+        <!--  This parameter controls the Jog4j log format as seen in the Log 
+              tab of the browser view. 
+        <init-param>
+            <param-name>oddjob-log-format</param-name>
+            <param-value>%d{dd-MMM-yy HH:mm:ss}: %m%n</param-value>  
+        </init-param> 
+        -->
+        
+        <load-on-startup>4</load-on-startup>
     </servlet>
     
+    <!--  This mapping is optional and can be removed. It allows some 
+          very basic information on the job's cached
+          be viewed with http://localhost:8080/oddjob/view -->
+    <servlet-mapping>
+        <servlet-name>Job Lookup</servlet-name>
+        <url-pattern>/view</url-pattern>
+    </servlet-mapping>
+    
+    <!--  The standard Java Server Faces Servlet -->
     <servlet>
         <servlet-name>Faces Servlet</servlet-name>
         <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
@@ -47,6 +127,8 @@
         <welcome-file>index.xhtml</welcome-file>
     </welcome-file-list>
     
+    <!--  These are development parameters and can be removed. -->
+    
     <context-param>
         <param-name>facelets.DEVELOPMENT</param-name>
         <param-value>true</param-value>
@@ -59,4 +141,5 @@
         <param-name>javax.faces.FACELETS_REFRESH_PERIOD</param-name>
         <param-value>1</param-value>
     </context-param>
+    
 </web-app>

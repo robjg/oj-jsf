@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.oddjob.Oddjob;
+import org.oddjob.OddjobExecutors;
 import org.oddjob.OddjobLookup;
 import org.oddjob.arooa.standard.StandardArooaSession;
 import org.oddjob.monitor.context.ExplorerContext;
@@ -26,21 +27,20 @@ import org.oddjob.webapp.WebappConstants;
 import org.oddjob.webapp.model.IconRegistry;
 import org.oddjob.webapp.model.JobInfoLookup;
 
-
 /**
- * This servlet creates a JobInfoLookup on an Oddjob instance which tracks
- * changes in the Oddjob so that the detail is available for presentation.
+ * This servlet creates an {@link JobInfoLookup} on an Oddjob instance that 
+ * tracks changes in the Oddjob instance so that the detail is available for 
+ * presentation.
  *  
  * @author Rob Gordon.
  */
-
 public class LookupServlet extends HttpServlet {
 	private static final long serialVersionUID = 20051103;
 	private static final Logger logger = Logger.getLogger(LookupServlet.class);
 	
 	/** The lookup this instance creates. */
 	private JobInfoLookup lookup;
-
+	
 	private ThreadManager threadManager;
 	
 	/*
@@ -56,20 +56,21 @@ public class LookupServlet extends HttpServlet {
 			throw new ServletException("No Oddjob Instance - ensure Oddjob Servlet starts first!");
 		}
 		
-		String logFormat = context.getInitParameter(
-				WebappConstants.LOG_FORMAT_PARAM);
-		if (logFormat== null) {
-			logFormat= config.getInitParameter(
-					WebappConstants.LOG_FORMAT_PARAM);
-		}
-				
-		String root = context.getInitParameter(
-				WebappConstants.ROOT_PARAM);
-		if (root == null) {
-			root = config.getInitParameter(WebappConstants.ROOT_PARAM);
+		OddjobExecutors executors = (OddjobExecutors) context.getAttribute(
+				WebappConstants.EXECUTORS);
+		if (executors == null) {
+			throw new ServletException("No Executors - ensure Execution Servlet starts first!");
 		}
 		
-		threadManager = new SimpleThreadManager();
+		threadManager = new SimpleThreadManager(executors.getPoolExecutor()); 
+		
+		InitParam params = new InitParam(config);
+		
+		String logFormat = params.getInitParam(
+				WebappConstants.LOG_FORMAT_PARAM);
+				
+		String root = params.getInitParam(
+				WebappConstants.ROOT_PARAM);
 		
 		ExplorerModelImpl explorerModel = new ExplorerModelImpl(
 				new StandardArooaSession());
@@ -81,21 +82,12 @@ public class LookupServlet extends HttpServlet {
 		
 		Object rootNode = oddjob;
 		if (root != null) {
-			while (true) {
-				OddjobLookup lookup = new OddjobLookup(oddjob);
-				rootNode = lookup.lookup(root);
-		
-				if (rootNode != null) {
-					break;
-				}
-				logger.debug("Waiting for oddjob to create [" + root + "]");
-				synchronized (this) {
-					try {
-						wait(1000);
-					} catch (InterruptedException e) {
-						return;
-					}
-				}
+			OddjobLookup lookup = new OddjobLookup(oddjob);
+			rootNode = lookup.lookup(root);
+
+			if (rootNode == null) {
+				throw new ServletException(
+						"Can't find job for root node " + root);
 			}
 			
 			eContext = eContext.addChild(rootNode);
@@ -117,7 +109,8 @@ public class LookupServlet extends HttpServlet {
 	throws ServletException, IOException {
 		res.setContentType("text/plain");
 		PrintWriter out = res.getWriter();		
-		out.println("Lookup");
+		out.println("Lookup Servlet. " + lookup.getJobCount() + 
+				" jobs cached.");
 	}
 
 	/*
@@ -125,7 +118,8 @@ public class LookupServlet extends HttpServlet {
 	 * @see javax.servlet.Servlet#destroy()
 	 */
 	public void destroy() {
-		threadManager.close();
+		logger.debug("Destroying Oddjob Lookup.");
 		lookup.destroy();
+		threadManager.close();
 	}
 }
