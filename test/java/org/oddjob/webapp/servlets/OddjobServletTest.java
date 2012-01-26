@@ -49,6 +49,10 @@ public class OddjobServletTest extends TestCase {
 				WebappConstants.NAME_PARAM)).thenReturn(
 						"Servlet Test");
 						
+		Mockito.when(context.getInitParameter(
+				WebappConstants.RUN_OR_LOAD_PARAM)).thenReturn(
+						"run");
+		
 		Mockito.when(context.getAttribute(
 				WebappConstants.EXECUTORS)).thenReturn(
 						executors);

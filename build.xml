@@ -199,6 +199,9 @@
 			</fileset>
 		</copy>
 		
+		<copy file="${oddjob.src}/opt/classes/log4j.properties" 
+	    	toDir="${build.war}/WEB-INF/classes"/>
+
 	</target>
 
 	<!-- =================================================================== -->

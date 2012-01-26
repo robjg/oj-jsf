@@ -6,6 +6,7 @@ package org.oddjob.webapp.servlets;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.MalformedURLException;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
@@ -59,10 +60,13 @@ public class OddjobServlet extends HttpServlet {
 				WebappConstants.FILE_NAME_PARAM);
 		
 		if (oddjobPath == null) {
-			oddjob.setConfiguration(
-					new XMLConfiguration(oddjobFile, 
-							context.getResourceAsStream(oddjobFile)));
-		
+			try {
+				oddjob.setConfiguration(
+						new XMLConfiguration( 
+								context.getResource(oddjobFile)));
+			} catch (MalformedURLException e) {
+				throw new ServletException(e);
+			}
 		} else {
 			oddjob.setFile(new File(oddjobPath, oddjobFile));
 		}
@@ -71,15 +75,10 @@ public class OddjobServlet extends HttpServlet {
 				WebappConstants.NAME_PARAM, "Oddjob");
 		oddjob.setName(name);
 		
-		oddjob.load();
+		new OddjobRunOrLoad(oddjob).runOrLoad(
+				params.getInitParam(WebappConstants.RUN_OR_LOAD_PARAM));
 
-		context.setAttribute(WebappConstants.ODDJOB_INSTANCE, oddjob);
-		
-		String loadOnly = params.getInitParam(
-				WebappConstants.LOAD_ONLY_PARAM, "false");
-		if (!Boolean.valueOf(loadOnly)) {
-			executors.getPoolExecutor().execute(oddjob);
-		}
+		context.setAttribute(WebappConstants.ODDJOB_INSTANCE, oddjob);		
 	}
 
 	/*

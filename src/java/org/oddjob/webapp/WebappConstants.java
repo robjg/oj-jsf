@@ -19,9 +19,8 @@ public class WebappConstants {
 	 * configuration file. */
 	public final static String FILE_NAME_PARAM = "oddjob-config-file";
 	
-	/** Should the Oddojb Servlet only load the configuration and
-	 * not run it. */
-	public final static String LOAD_ONLY_PARAM = "oddjob-load-only";
+	/** Should Oddjob be run or loaded */
+	public final static String RUN_OR_LOAD_PARAM = "oddjob-run-or-load";
 	
 	/** The parameter that identifies the Oddjob
 	 * job name that the root Oddjob is given Defaults to Oddjob. */

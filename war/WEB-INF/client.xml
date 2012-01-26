@@ -1,8 +1,0 @@
-<oddjob>
-    <job>
-        <jmx:client xmlns:jmx="http://rgordon.co.uk/oddjob/jmx"
-                id="client"
-                name="Oddjob Client"
-                url="service:jmx:rmi:///jndi/rmi://localhost/my-oddjob"/>
-    </job>
-</oddjob>

@@ -80,6 +80,9 @@ public class LookupServlet extends HttpServlet {
 		
 		ExplorerContext eContext = new ExplorerContextImpl(explorerModel);
 		
+		new OddjobRunOrLoad(oddjob).runOrLoad(
+				params.getInitParam(WebappConstants.RUN_OR_LOAD_PARAM));
+		
 		Object rootNode = oddjob;
 		if (root != null) {
 			OddjobLookup lookup = new OddjobLookup(oddjob);

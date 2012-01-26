@@ -34,6 +34,17 @@
             <param-value>/WEB-INF/oddjob.xml</param-value>
         </init-param>
         
+        <!-- Oddjob run or load property. With the JSF front end 
+             We want this to happen  in the Lookup Servlet so all 
+             log messages are captured. If running the Oddjob servlet without
+             the front end we want this to happen here.
+             This parameter can be either run or load (lower case)
+        <init-param>
+            <param-name>oddjob-run-or-load</param-name>
+            <param-value>run</param-value>
+        </init-param>
+         -->
+        
         <!-- These set of parameters demonstrate how to load the examples
              from the local file system into the Oddjob within the 
              Oddjob servelet. 
@@ -45,11 +56,7 @@
         <init-param>
             <param-name>oddjob-config-file</param-name>
             <param-value>oddjob.xml</param-value>
-        </init-param>
-        <init-param>
-            <param-name>oddjob-load-only</param-name>
-            <param-value>true</param-value>
-        </init-param>
+        </init-param>        
          -->
          
         <load-on-startup>2</load-on-startup>
@@ -83,6 +90,22 @@
     <servlet>
         <servlet-name>Job Lookup</servlet-name>
         <servlet-class>org.oddjob.webapp.servlets.LookupServlet</servlet-class>
+                        
+        <!--  Run Oddjob here so we can capture the log messages from
+              start up. This parameter can be either run or load (lower case)
+        -->
+        <init-param>
+            <param-name>oddjob-run-or-load</param-name>
+            <param-value>run</param-value>
+        </init-param>
+        
+        <!--  This parameter controls the Jog4j log format as seen in the Log 
+              tab of the browser view. 
+        -->
+        <init-param>
+            <param-name>oddjob-log-format</param-name>
+            <param-value>%d{dd-MMM-yy HH:mm:ss} %p %m%n</param-value>  
+        </init-param> 
         
         <!-- This parameter can be used to specify a different job
              from the Oddjob configuration as being the root node in the 
@@ -90,14 +113,6 @@
         <init-param>
             <param-name>oddjob-root-job-id</param-name>
             <param-value>main</param-value>  
-        </init-param> 
-        -->
-        
-        <!--  This parameter controls the Jog4j log format as seen in the Log 
-              tab of the browser view. 
-        <init-param>
-            <param-name>oddjob-log-format</param-name>
-            <param-value>%d{dd-MMM-yy HH:mm:ss}: %m%n</param-value>  
         </init-param> 
         -->
         
