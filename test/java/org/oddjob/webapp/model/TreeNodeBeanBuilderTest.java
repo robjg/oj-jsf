@@ -7,6 +7,7 @@ import junit.framework.TestCase;
 
 import org.oddjob.Iconic;
 import org.oddjob.Oddjob;
+import org.oddjob.arooa.standard.StandardArooaSession;
 import org.oddjob.arooa.xml.XMLConfiguration;
 import org.oddjob.images.IconHelper;
 import org.oddjob.images.IconListener;
@@ -49,7 +50,8 @@ public class TreeNodeBeanBuilderTest extends TestCase {
 		oj.setConfiguration(new XMLConfiguration("XML", xml));
 		oj.setName("Test");
 		
-		JobInfoLookup lookup = new JobInfoLookup(new IconRegistry());
+		JobInfoLookup lookup = new JobInfoLookup(new IconRegistry(),
+				new StandardArooaSession());
 		lookup.setRoot(oj, new OurExplorerContext());
 		TreeNodeBeanBuilder builder = new TreeNodeBeanBuilder(lookup, "1");
 		TreeNodeBean bean = builder.buildRoot();
@@ -114,7 +116,8 @@ public class TreeNodeBeanBuilderTest extends TestCase {
 		oj.setName("Test");
 		oj.run();
 		
-		JobInfoLookup lookup = new JobInfoLookup(new IconRegistry());
+		JobInfoLookup lookup = new JobInfoLookup(new IconRegistry(),
+				new StandardArooaSession());
 		lookup.setRoot(oj, new OurExplorerContext());
 		TreeNodeBeanBuilder builder = new TreeNodeBeanBuilder(lookup, "1");
 		TreeNodeBean bean = builder.buildRoot();
@@ -160,7 +163,8 @@ public class TreeNodeBeanBuilderTest extends TestCase {
 		}
 		I i = new I();
 		
-		JobInfoLookup lookup = new JobInfoLookup(new IconRegistry());
+		JobInfoLookup lookup = new JobInfoLookup(new IconRegistry(),
+				new StandardArooaSession());
 		lookup.setRoot(i, null);
 		TreeNodeBeanBuilder builder = new TreeNodeBeanBuilder(lookup, "1");
 		TreeNodeBean bean = builder.buildRoot();

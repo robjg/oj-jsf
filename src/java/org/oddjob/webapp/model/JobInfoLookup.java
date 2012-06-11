@@ -11,6 +11,8 @@ import java.util.Map;
 import org.oddjob.Iconic;
 import org.oddjob.Stateful;
 import org.oddjob.Structural;
+import org.oddjob.arooa.ArooaSession;
+import org.oddjob.describe.UniversalDescriber;
 import org.oddjob.images.IconEvent;
 import org.oddjob.images.IconListener;
 import org.oddjob.logging.ConsoleArchiver;
@@ -19,7 +21,6 @@ import org.oddjob.logging.LogEvent;
 import org.oddjob.logging.LogLevel;
 import org.oddjob.logging.LogListener;
 import org.oddjob.monitor.context.ExplorerContext;
-import org.oddjob.monitor.model.Describer;
 import org.oddjob.monitor.model.LogContextInialiser;
 import org.oddjob.state.StateEvent;
 
@@ -33,6 +34,8 @@ public class JobInfoLookup {
 	/** Icon registry. */
 	private final IconRegistry iconRegistry;
 	
+	private final org.oddjob.describe.Describer describer;
+			
 	/** Jobs by refId. */
 	private Map<String, TreeNode> jobs = new HashMap<String, TreeNode>();
 	
@@ -44,11 +47,12 @@ public class JobInfoLookup {
 	 * 
 	 * @param iconRegistry The icon registry.
 	 */
-	public JobInfoLookup(IconRegistry iconRegistry) {
+	public JobInfoLookup(IconRegistry iconRegistry, ArooaSession session) {
 		if (iconRegistry == null) {
 			throw new NullPointerException("Icon Registry must not be null");
 		}
 		this.iconRegistry = iconRegistry;
+		this.describer = new UniversalDescriber(session);
 	}
 
 	/**
@@ -148,7 +152,7 @@ public class JobInfoLookup {
 		if (object == null) {
 			return null;
 		}
-		return Describer.describe(object);
+		return describer.describe(object);
 	}
 	
 	/**

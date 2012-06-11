@@ -12,6 +12,8 @@ import org.apache.log4j.Logger;
 import org.oddjob.Iconic;
 import org.oddjob.Oddjob;
 import org.oddjob.OurDirs;
+import org.oddjob.arooa.ArooaSession;
+import org.oddjob.arooa.standard.StandardArooaSession;
 import org.oddjob.arooa.xml.XMLConfiguration;
 import org.oddjob.images.IconEvent;
 import org.oddjob.images.IconHelper;
@@ -32,11 +34,13 @@ import org.oddjob.util.ThreadManager;
 public class JobInfoLookupTest extends TestCase {
 	private static final Logger logger = Logger.getLogger(JobInfoLookupTest.class);
 	
-	public IconRegistry ir = new IconRegistry();
+	IconRegistry ir = new IconRegistry();
+	ArooaSession session = new StandardArooaSession();
+	
 	
 	public void testGetRootRefId() {
 		Object root = new Object();
-		JobInfoLookup test = new JobInfoLookup(ir);
+		JobInfoLookup test = new JobInfoLookup(ir, session);
 		test.setRoot(root, null);
 		
 		// note: we can't test for zero here because when running tests
@@ -59,7 +63,7 @@ public class JobInfoLookupTest extends TestCase {
 			
 		};
 		
-		JobInfoLookup lookup = new JobInfoLookup(ir);
+		JobInfoLookup lookup = new JobInfoLookup(ir, session);
 		lookup.setRoot(root, null);
 		NodeInfo ni = lookup.nodeInfoFor(lookup.getRootRefId());
 		assertEquals("foo", ni.getIconId());
@@ -73,7 +77,7 @@ public class JobInfoLookupTest extends TestCase {
 		oj.setConfiguration(new XMLConfiguration("XML", xml));
 		oj.run();
 		
-		JobInfoLookup lookup = new JobInfoLookup(ir);
+		JobInfoLookup lookup = new JobInfoLookup(ir, session);
 		lookup.setRoot(oj, null);
 		NodeInfo ni = lookup.nodeInfoFor(lookup.getRootRefId());
 		
@@ -119,7 +123,7 @@ public class JobInfoLookupTest extends TestCase {
 		oj.setConfiguration(new XMLConfiguration("XML", xml));
 		oj.run();
 		
-		JobInfoLookup lookup = new JobInfoLookup(ir);
+		JobInfoLookup lookup = new JobInfoLookup(ir, session);
 		
 		OurExplorerContext explorerContext = new OurExplorerContext();
 		explorerContext.component = oj;
@@ -162,7 +166,7 @@ public class JobInfoLookupTest extends TestCase {
 		f1.setJobs(0, f2);
 		f2.setJobs(0, f3);
 		
-		JobInfoLookup lookup = new JobInfoLookup(ir);
+		JobInfoLookup lookup = new JobInfoLookup(ir, session);
 		
 		OurExplorerContext explorerContext = new OurExplorerContext();
 		explorerContext.component = f1;
@@ -194,7 +198,7 @@ public class JobInfoLookupTest extends TestCase {
 		Loggable l = new Loggable();
 		assertEquals("foo", LogHelper.getLogger(l));
 		
-		JobInfoLookup lookup = new JobInfoLookup(ir);
+		JobInfoLookup lookup = new JobInfoLookup(ir, session);
 //		lookup.setLogFormat("%m");
 		
 		final Log4jArchiver archiver = new Log4jArchiver(l,"%m");
@@ -225,7 +229,7 @@ public class JobInfoLookupTest extends TestCase {
 	public void testCommands() throws Exception {
 		SimpleThreadManager tm = new SimpleThreadManager();
 		
-		JobInfoLookup test = new JobInfoLookup(ir);
+		JobInfoLookup test = new JobInfoLookup(ir, session);
 		
 		Oddjob oj = new Oddjob();
 		oj.setFile(new OurDirs().relative("test/config/oddjob-test.xml"));

@@ -17,6 +17,7 @@ import org.apache.log4j.Logger;
 import org.oddjob.Oddjob;
 import org.oddjob.OddjobExecutors;
 import org.oddjob.OddjobLookup;
+import org.oddjob.arooa.ArooaSession;
 import org.oddjob.arooa.standard.StandardArooaSession;
 import org.oddjob.monitor.context.ExplorerContext;
 import org.oddjob.monitor.model.ExplorerContextImpl;
@@ -72,8 +73,9 @@ public class LookupServlet extends HttpServlet {
 		String root = params.getInitParam(
 				WebappConstants.ROOT_PARAM);
 		
-		ExplorerModelImpl explorerModel = new ExplorerModelImpl(
-				new StandardArooaSession());
+		ArooaSession session = new StandardArooaSession(); 
+		
+		ExplorerModelImpl explorerModel = new ExplorerModelImpl(session);
 		explorerModel.setLogFormat(logFormat);
 		explorerModel.setThreadManager(threadManager);
 		explorerModel.setOddjob(oddjob);
@@ -97,7 +99,8 @@ public class LookupServlet extends HttpServlet {
 		}
 				
 		lookup = new JobInfoLookup((IconRegistry)
-				context.getAttribute(WebappConstants.ICON_REGISTRY));
+				context.getAttribute(WebappConstants.ICON_REGISTRY),
+				session);
 		
 		lookup.setRoot(rootNode, eContext);
 		
