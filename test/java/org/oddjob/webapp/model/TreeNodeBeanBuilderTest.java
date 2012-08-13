@@ -3,6 +3,8 @@
  */
 package org.oddjob.webapp.model;
 
+import javax.swing.ImageIcon;
+
 import junit.framework.TestCase;
 
 import org.oddjob.Iconic;
@@ -11,7 +13,6 @@ import org.oddjob.arooa.standard.StandardArooaSession;
 import org.oddjob.arooa.xml.XMLConfiguration;
 import org.oddjob.images.IconHelper;
 import org.oddjob.images.IconListener;
-import org.oddjob.images.IconTip;
 import org.oddjob.monitor.context.ExplorerContext;
 import org.oddjob.monitor.model.MockExplorerContext;
 import org.oddjob.util.ThreadManager;
@@ -154,7 +155,7 @@ public class TreeNodeBeanBuilderTest extends TestCase {
 				toggle = !toggle;
 				ih.addIconListener(listener);
 			}
-			public IconTip iconForId(String id) {
+			public ImageIcon iconForId(String id) {
 				return ih.iconForId(id);
 			}
 			public void removeIconListener(IconListener listener) {

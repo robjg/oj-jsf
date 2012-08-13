@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.oddjob.Iconic;
-import org.oddjob.images.IconTip;
 import org.oddjob.webapp.WebappConstants;
 import org.oddjob.webapp.model.IconRegistry;
 
@@ -46,8 +45,8 @@ public class IconServlet extends HttpServlet {
 			logger.debug("No request paramter iconId.");
 			return;
 		}
-		IconTip iconTip = iconRegistry.retrieve(iconId);
-		if (iconTip == null) {
+		byte[] image = iconRegistry.retrieve(iconId);
+		if (image == null) {
 			logger.debug("No icon for [" + iconId + "]");
 			return;
 		}
@@ -55,7 +54,7 @@ public class IconServlet extends HttpServlet {
 		// Attempt to get IE to cache images
 		response.setDateHeader("Expires", -1);
 		response.setContentType("image/gif");
-		response.getOutputStream().write(iconTip.getImageData());
+		response.getOutputStream().write(image);
 	}
 	
 	public long getLastModified(HttpServletRequest request) {

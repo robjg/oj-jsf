@@ -3,11 +3,19 @@
  */
 package org.oddjob.webapp.model;
 
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.awt.image.RenderedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+
 import org.oddjob.Iconic;
-import org.oddjob.images.IconTip;
 
 /**
  * A registry of icons so they can be served up to 
@@ -19,7 +27,7 @@ import org.oddjob.images.IconTip;
 public class IconRegistry {
 
 	/** The icons. */
-	final private Map<String, IconTip> icons = new HashMap<String, IconTip>();
+	final private Map<String, byte[]> icons = new HashMap<String, byte[]>();
 
 	/**
 	 * Register an iconId. If the icon id isn't
@@ -31,10 +39,31 @@ public class IconRegistry {
 	 */
 	public void register(String iconId, Iconic iconic) {
 		synchronized (icons) {
-			IconTip iconTip = icons.get(iconId);
-			if (iconTip == null) {
-				iconTip = iconic.iconForId(iconId);
-				icons.put(iconId, iconTip);
+			if (!icons.containsKey(iconId)) {
+				ImageIcon icon = iconic.iconForId(iconId);
+				Image image = icon.getImage();
+				RenderedImage rendered;
+				if (image instanceof RenderedImage) {
+					rendered = (RenderedImage) image;
+				}
+				else {
+					BufferedImage buffered = new BufferedImage(
+							icon.getIconWidth(),
+							icon.getIconHeight(),
+							BufferedImage.TYPE_INT_RGB);
+					Graphics2D g = buffered.createGraphics();
+					g.drawImage(image, 0, 0, null);
+					g.dispose();
+					rendered = buffered;
+				}
+				ByteArrayOutputStream out = new ByteArrayOutputStream();
+				
+				try {
+					ImageIO.write((BufferedImage) rendered, "GIF", out);
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+				}
+				icons.put(iconId, out.toByteArray());
 			}
 		}
 	}
@@ -46,7 +75,7 @@ public class IconRegistry {
 	 * @return The IconTip, null if none exists if
 	 * nothing is registered for that id.
 	 */
-	public IconTip retrieve(String iconId) {
+	public byte[] retrieve(String iconId) {
 		synchronized (icons) {
 			return icons.get(iconId);
 		}

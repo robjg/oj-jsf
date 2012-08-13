@@ -5,6 +5,8 @@ package org.oddjob.webapp.model;
 
 import java.util.List;
 
+import javax.swing.ImageIcon;
+
 import junit.framework.TestCase;
 
 import org.apache.log4j.Level;
@@ -18,7 +20,6 @@ import org.oddjob.arooa.xml.XMLConfiguration;
 import org.oddjob.images.IconEvent;
 import org.oddjob.images.IconHelper;
 import org.oddjob.images.IconListener;
-import org.oddjob.images.IconTip;
 import org.oddjob.jobs.structural.JobFolder;
 import org.oddjob.logging.LogEnabled;
 import org.oddjob.logging.LogEvent;
@@ -55,7 +56,7 @@ public class JobInfoLookupTest extends TestCase {
 				IconEvent e = new IconEvent(this, "foo");
 				listener.iconEvent(e);
 			}
-			public IconTip iconForId(String id) {
+			public ImageIcon iconForId(String id) {
 				return IconHelper.completeIcon;
 			}
 			public void removeIconListener(IconListener listener) {
@@ -67,7 +68,9 @@ public class JobInfoLookupTest extends TestCase {
 		lookup.setRoot(root, null);
 		NodeInfo ni = lookup.nodeInfoFor(lookup.getRootRefId());
 		assertEquals("foo", ni.getIconId());
-		assertNotNull(ir.retrieve("foo"));
+		
+		byte[] icon = ir.retrieve("foo");
+		assertNotNull(icon);
 	}
 
 	public void testNoChildren() {
