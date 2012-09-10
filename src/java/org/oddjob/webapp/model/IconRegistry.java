@@ -3,12 +3,14 @@
  */
 package org.oddjob.webapp.model;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,33 +43,48 @@ public class IconRegistry {
 		synchronized (icons) {
 			if (!icons.containsKey(iconId)) {
 				ImageIcon icon = iconic.iconForId(iconId);
-				Image image = icon.getImage();
-				RenderedImage rendered;
-				if (image instanceof RenderedImage) {
-					rendered = (RenderedImage) image;
-				}
-				else {
-					BufferedImage buffered = new BufferedImage(
-							icon.getIconWidth(),
-							icon.getIconHeight(),
-							BufferedImage.TYPE_INT_RGB);
-					Graphics2D g = buffered.createGraphics();
-					g.drawImage(image, 0, 0, null);
-					g.dispose();
-					rendered = buffered;
-				}
-				ByteArrayOutputStream out = new ByteArrayOutputStream();
 				
-				try {
-					ImageIO.write((BufferedImage) rendered, "GIF", out);
-				} catch (IOException e) {
-					throw new RuntimeException(e);
-				}
+				ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+				writeIcon(icon, out);
+				
 				icons.put(iconId, out.toByteArray());
 			}
 		}
 	}
 
+	/**
+	 * Write the icon to an output stream.
+	 * 
+	 * @param icon The icon.
+	 * @param out The output stream. This method will close the output
+	 * stream.
+	 */
+	protected void writeIcon(ImageIcon icon, OutputStream out) {
+		
+		Image image = icon.getImage();
+		RenderedImage rendered;
+		if (image instanceof RenderedImage) {
+			rendered = (RenderedImage) image;
+		}
+		else {
+			BufferedImage buffered = new BufferedImage(
+					icon.getIconWidth(),
+					icon.getIconHeight(),
+					BufferedImage.TYPE_INT_RGB);
+			Graphics2D g = buffered.createGraphics();
+			g.drawImage(image, 0, 0, Color.WHITE, null);
+			g.dispose();
+			rendered = buffered;
+		}
+		try {
+			ImageIO.write((BufferedImage) rendered, "jpg", out);
+			out.close();
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
+	
 	/**
 	 * Retrieve an IconTip for a given icon id.
 	 * 

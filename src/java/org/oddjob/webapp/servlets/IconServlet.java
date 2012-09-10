@@ -53,7 +53,7 @@ public class IconServlet extends HttpServlet {
 		
 		// Attempt to get IE to cache images
 		response.setDateHeader("Expires", -1);
-		response.setContentType("image/gif");
+		response.setContentType("image/JPEG");
 		response.getOutputStream().write(image);
 	}
 	
