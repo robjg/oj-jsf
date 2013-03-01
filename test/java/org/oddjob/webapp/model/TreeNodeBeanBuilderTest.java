@@ -144,7 +144,7 @@ public class TreeNodeBeanBuilderTest extends TestCase {
 	
 	public void testIcon() {
 		class I implements Iconic {
-			IconHelper ih = new IconHelper(this);
+			IconHelper ih = new IconHelper(this, IconHelper.READY);
 			boolean toggle;
 			public void addIconListener(IconListener listener) {
 				if (toggle) {
