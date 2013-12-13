@@ -15,8 +15,8 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.oddjob.Oddjob;
 import org.oddjob.OddjobExecutors;
-import org.oddjob.OurDirs;
 import org.oddjob.state.ParentState;
+import org.oddjob.tools.OurDirs;
 import org.oddjob.webapp.WebappConstants;
 
 public class OddjobServletTest extends TestCase {

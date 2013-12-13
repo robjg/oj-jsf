@@ -8,8 +8,8 @@ import javax.swing.ImageIcon;
 
 import junit.framework.TestCase;
 
-import org.oddjob.OurDirs;
 import org.oddjob.images.IconHelper;
+import org.oddjob.tools.OurDirs;
 
 public class IconRegistryTest extends TestCase {
 

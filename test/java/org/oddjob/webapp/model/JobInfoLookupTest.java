@@ -13,7 +13,6 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.oddjob.Iconic;
 import org.oddjob.Oddjob;
-import org.oddjob.OurDirs;
 import org.oddjob.arooa.ArooaSession;
 import org.oddjob.arooa.standard.StandardArooaSession;
 import org.oddjob.arooa.xml.XMLConfiguration;
@@ -27,8 +26,8 @@ import org.oddjob.logging.LogHelper;
 import org.oddjob.logging.log4j.Log4jArchiver;
 import org.oddjob.monitor.context.ExplorerContext;
 import org.oddjob.monitor.model.LogContextInialiser;
-import org.oddjob.monitor.model.MockExplorerContext;
 import org.oddjob.state.ParentState;
+import org.oddjob.tools.OurDirs;
 import org.oddjob.util.SimpleThreadManager;
 import org.oddjob.util.ThreadManager;
 

@@ -14,7 +14,6 @@ import org.oddjob.arooa.xml.XMLConfiguration;
 import org.oddjob.images.IconHelper;
 import org.oddjob.images.IconListener;
 import org.oddjob.monitor.context.ExplorerContext;
-import org.oddjob.monitor.model.MockExplorerContext;
 import org.oddjob.util.ThreadManager;
 import org.oddjob.webapp.jsf.TreeNodeBean;
 
