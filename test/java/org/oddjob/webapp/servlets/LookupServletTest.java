@@ -117,7 +117,7 @@ public class LookupServletTest extends TestCase {
 		
 		assertEquals(JobState.READY, sequence.lastStateEvent().getState());
 		
-		actions.action("Run");
+		actions.action("Start");
 		
 		assertEquals(JobState.COMPLETE, sequence.lastStateEvent().getState());
 		

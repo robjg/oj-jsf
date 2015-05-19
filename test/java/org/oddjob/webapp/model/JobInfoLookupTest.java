@@ -243,10 +243,10 @@ public class JobInfoLookupTest extends TestCase {
 		test.setRoot(oj, explorerContext);
 		WebJobActions actions = test.actionsFor(test.getRootRefId());
 
-		assertTrue(actions.commands().contains("Run"));
-		assertTrue(actions.isEnabled("Run"));
+		assertTrue(actions.commands().contains("Start"));
+		assertTrue(actions.isEnabled("Start"));
 		
-		actions.action("Run");
+		actions.action("Start");
 		while (tm.activeDescriptions().length > 0) {
 			logger.debug("Waiting for ThreadManager.");
 			Thread.sleep(500);
@@ -265,7 +265,7 @@ public class JobInfoLookupTest extends TestCase {
 		
 		assertEquals(ParentState.READY, oj.lastStateEvent().getState());
 
-		actions.action("Run");
+		actions.action("Start");
 		while (tm.activeDescriptions().length > 0) {
 			logger.debug("Waiting for ThreadManager.");
 			Thread.sleep(500);
